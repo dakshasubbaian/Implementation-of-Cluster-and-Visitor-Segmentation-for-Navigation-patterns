@@ -2,12 +2,11 @@
 
 ## DEVELOPED BY:
 ```
-REGISTER NUMBER:212223230036
-NAME:DAKSHA SUBBAIAN
+REGISTER NUMBER: 212223230036
+NAME: DAKSHA SUBBAIAN
 ```
 
-### AIM:
-To implement Cluster and Visitor Segmentation for Navigation patterns in Python.
+### AIM: To implement Cluster and Visitor Segmentation for Navigation patterns in Python.
 
 ### Description:
 
@@ -16,8 +15,8 @@ Cluster visitor segmentation refers to the process of grouping or categorizing v
 ### Procedure:
 
 1. Read the CSV file: Use pd.read_csv to load the CSV file into a pandas DataFrame.
-2. Define Age Groups by creating a dictionary containing age group conditions using Boolean conditions.
-3. Segment Visitors by iterating through the dictionary and filter the visitors into respective age groups.
+2. Define Gender Groups by creating two groups: Male and Female.
+3. Segment Visitors by filtering the visitors into respective gender groups.
 4. Visualize the result using matplotlib.
 
 ### Program:
@@ -31,55 +30,67 @@ import matplotlib.pyplot as plt
 # Read the data
 df = pd.read_csv("clustervisitor.csv")
 
-# Perform segmentation based on characteristics (e.g., age groups)
+# Perform segmentation based on characteristics (e.g., gender groups)
 
-age_groups = {
-    'Children (0-17)': (df['Age'] >= 0) & (df['Age'] <= 17),
-    'Young Adults (18-35)': (df['Age'] >= 18) & (df['Age'] <= 35),
-    'Middle Adults (36-60)': (df['Age'] >= 36) & (df['Age'] <= 60),
-    'Seniors (Above 60)': (df['Age'] > 60)
-}
+male_cluster = df[df["Gender"].str.lower() == "male"]
+female_cluster = df[df["Gender"].str.lower() == "female"]
 
-segmented_visitors = {}
+print("Cluster 1 - Male Visitors:")
+print(male_cluster)
 
-for group, condition in age_groups.items():
-    segmented_visitors[group] = df[condition]
-    print("\n", group)
-    print(segmented_visitors[group])
+print("\nCluster 2 - Female Visitors:")
+print(female_cluster)
 ```
 
 ### Output:
-<img width="492" height="917" alt="image" src="https://github.com/user-attachments/assets/1245cd3c-d495-4f12-aabd-320fbc7a01e0" />
+<img width="405" height="768" alt="image" src="https://github.com/user-attachments/assets/eb2d3dab-86b7-4429-9f1d-9820057568db" />
 
 ### Visualization:
 
 ```python
-# Create a list to store counts of visitors in each age group
+# Create a list to store counts of visitors in each gender group
 
 visitor_counts = []
 
-# Count visitors in each age group
+# Count visitors in each gender group
 
-for group in age_groups:
-    visitor_counts.append(len(segmented_visitors[group]))
+visitor_counts.append(len(male_cluster))
+visitor_counts.append(len(female_cluster))
 
-# Define age group labels and plot a bar chart
+# Define gender group labels and plot a scatter plot
 
-age_group_labels = list(age_groups.keys())
+gender_group_labels = ["Male", "Female"]
 
 plt.figure(figsize=(8, 6))
-plt.bar(age_group_labels, visitor_counts, color='skyblue')
-plt.xlabel('Age Groups')
-plt.ylabel('Number of Visitors')
-plt.title('Visitor Distribution Across Age Groups')
+
+plt.scatter(
+    male_cluster.index,
+    [1] * len(male_cluster),
+    label="Male",
+    color="blue"
+)
+
+plt.scatter(
+    female_cluster.index,
+    [2] * len(female_cluster),
+    label="Female",
+    color="red"
+)
+
+plt.xlabel("Visitor Index")
+plt.ylabel("Cluster")
+plt.title("Visitor Segmentation - Male and Female")
+plt.yticks([1, 2], gender_group_labels)
+plt.legend()
+plt.grid(True)
 plt.show()
 ```
 
 ### Output:
 
-<img width="977" height="742" alt="image" src="https://github.com/user-attachments/assets/267a321f-17eb-4342-8735-a8f6f119f4fc" />
+<img width="773" height="598" alt="image" src="https://github.com/user-attachments/assets/32263371-5a4c-4bfd-9e3f-4126a5bb7bde" />
 
 
 ### Result:
 
-Thus, visitor segmentation based on age groups was successfully implemented and visualized using Python and Matplotlib.
+Thus, visitor segmentation based on gender was successfully implemented and visualized using Python and Matplotlib.
